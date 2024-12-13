@@ -1,0 +1,34 @@
+import pandas as pd
+import numpy as np
+import cufflinks as cf
+from plotly.offline import init_notebook_mode
+
+# Enable cufflinks in offline mode
+cf.go_offline()
+init_notebook_mode(connected=True)
+
+# Generate sample data for 52 weeks
+np.random.seed(42)  # For reproducibility
+weeks = [f"Week {i+1}" for i in range(52)]
+pepsi_sales = np.random.randint(30, 80, size=52)  # Random sales for Pepsi
+coke_sales = np.random.randint(20, 90, size=52)   # Random sales for Coke
+
+# Create DataFrame
+data = {
+    "Week": weeks,
+    "Pepsi Sales": pepsi_sales,
+    "Coke Sales": coke_sales
+}
+df = pd.DataFrame(data)
+
+# Set 'Week' as index for better visualization
+df.set_index("Week", inplace=True)
+
+# Interactive line plot
+df.iplot(kind='scatter', 
+         mode='lines+markers', 
+         title="Pepsi vs Coke Sales Over 52 Weeks",
+         xTitle="Weeks",
+         yTitle="Number of Sales",
+         theme='solar',
+         legend=True)
